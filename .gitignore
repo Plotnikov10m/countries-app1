@@ -1,0 +1,20 @@
+# Зависимости
+backend/node_modules/
+backend/package-lock.json
+backend/.env
+
+# Базы данных
+backend/*.db
+backend/*.sqlite
+
+# Системные файлы
+.DS_Store
+Thumbs.db
+
+# Логи
+*.log
+npm-debug.log*
+
+# Временные файлы
+*.tmp
+*.temp

@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countries App - Мир стран</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .app-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .tagline {
+            color: #34495e;
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .nav-tab {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-tab.active {
+            background: #3498db;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
+        }
+        
+        /* Search Section */
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .search-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .search-field {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .search-field label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #34495e;
+        }
+        
+        .search-field input,
+        .search-field select {
+            padding: 1rem;
+            border: 2px solid #e1e8ed;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .search-field input:focus,
+        .search-field select:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .search-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        /* Buttons */
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+        
+        .btn-secondary {
+            background: #2c3e50;
+            color: white;
+        }
+        
+        .btn-success {
+            background: #2ecc71;
+            color: white;
+        }
+        
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* Countries Grid */
+        .countries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .country-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .country-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+        
+        .country-flag {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .country-info {
+            padding: 1.5rem;
+        }
+        
+        .country-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+        
+        .country-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .country-detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #34495e;
+        }
+        
+        .country-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: space-between;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            font-size: 1.2rem;
+            color: #34495e;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <h1 class="logo">🌍 Countries App</h1>
+            <p class="tagline">Откройте для себя мир - сохраните мечты о путешествиях</p>
+        </header>
+
+        <!-- Navigation -->
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('countries')">🗺️ Все страны</button>
+            <button class="nav-tab" onclick="showSection('wishlist')">❤️ Мой вишлист</button>
+        </div>
+
+        <!-- Countries Section -->
+        <section id="countries-section">
+            <!-- Search Section -->
+            <div class="search-section">
+                <h2 style="margin-bottom: 1.5rem; color: #2c3e50;">🔍 Поиск стран</h2>
+                <div class="search-grid">
+                    <div class="search-field">
+                        <label for="search-name">Название страны</label>
+                        <input type="text" id="search-name" placeholder="Например: Россия">
+                    </div>
+                    <div class="search-field">
+                        <label for="search-capital">Столица</label>
+                        <input type="text" id="search-capital" placeholder="Например: Москва">
+                    </div>
+                    <div class="search-field">
+                        <label for="search-language">Язык</label>
+                        <input type="text" id="search-language" placeholder="Например: русский">
+                    </div>
+                    <div class="search-field">
+                        <label for="search-region">Регион</label>
+                        <select id="search-region">
+                            <option value="">Все регионы</option>
+                            <option value="Africa">Африка</option>
+                            <option value="Americas">Америка</option>
+                            <option value="Asia">Азия</option>
+                            <option value="Europe">Европа</option>
+                            <option value="Oceania">Океания</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="search-actions">
+                    <button class="btn btn-primary" onclick="searchCountries()">
+                        🔍 Найти страны
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetSearch()">
+                        🗑️ Сбросить
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <h3 style="margin: 2rem 0 1rem; color: #2c3e50;">🌎 Найдено стран: <span id="countries-count">0</span></h3>
+            
+            <div class="loading" id="countries-loading">
+                <div class="spinner"></div>
+                Загрузка стран...
+            </div>
+
+            <div class="countries-grid" id="countries-container">
+                <!-- Countries will be loaded here -->
+            </div>
+        </section>
+
+        <!-- Wishlist Section -->
+        <section id="wishlist-section" style="display: none;">
+            <div class="search-section">
+                <h2 style="color: #2c3e50; margin-bottom: 1rem;">❤️ Мой вишлист путешествий</h2>
+                <p style="color: #7f8c8d;">Стран в вишлисте: <span id="wishlist-count">0</span></p>
+            </div>
+            <div id="wishlist-container" class="countries-grid">
+                <p style="text-align: center; color: #7f8c8d; padding: 3rem;">
+                    Вишлист пуст. Добавьте страны из раздела "Все страны"
+                </p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        let allCountries = [];
+        let filteredCountries = [];
+        let userWishlist = JSON.parse(localStorage.getItem('countriesWishlist')) || [];
+
+        function showSection(section) {
+            // Hide all sections
+            document.getElementById('countries-section').style.display = 'none';
+            document.getElementById('wishlist-section').style.display = 'none';
+            
+            // Remove active class from all tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected section and activate tab
+            if (section === 'countries') {
+                document.getElementById('countries-section').style.display = 'block';
+                document.querySelectorAll('.nav-tab')[0].classList.add('active');
+                loadCountries();
+            } else {
+                document.getElementById('wishlist-section').style.display = 'block';
+                document.querySelectorAll('.nav-tab')[1].classList.add('active');
+                loadWishlist();
+            }
+        }
+
+        async function loadCountries() {
+            const loadingElement = document.getElementById('countries-loading');
+            const container = document.getElementById('countries-container');
+            
+            loadingElement.style.display = 'block';
+            container.innerHTML = '';
+
+            try {
+                const response = await fetch('/api/countries');
+                const countries = await response.json();
+                
+                allCountries = countries.filter(country => country.name && country.name.common);
+                allCountries.sort((a, b) => a.name.common.localeCompare(b.name.common));
+                filteredCountries = [...allCountries];
+                
+                displayCountries(filteredCountries);
+                
+            } catch (error) {
+                console.error('Error loading countries:', error);
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <h3 style="color: #e74c3c; margin-bottom: 1rem;">❌ Ошибка загрузки</h3>
+                        <p>Проверьте подключение к интернету</p>
+                        <button class="btn btn-primary" onclick="loadCountries()" style="margin-top: 1rem;">
+                            🔄 Попробовать снова
+                        </button>
+                    </div>
+                `;
+            } finally {
+                loadingElement.style.display = 'none';
+            }
+        }
+
+        function displayCountries(countries) {
+            const container = document.getElementById('countries-container');
+            const countElement = document.getElementById('countries-count');
+            
+            countElement.textContent = countries.length;
+            
+            if (countries.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+                        <h3 style="color: #34495e; margin-bottom: 1rem;">😔 Страны не найдены</h3>
+                        <p>Попробуйте изменить параметры поиска</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = countries.map(country => {
+                const isInWishlist = userWishlist.some(item => item.countryCode === country.cca2);
+                const languages = country.languages ? Object.values(country.languages).slice(0, 2).join(', ') : 'Не указано';
+                
+                return `
+                    <div class="country-card">
+                        <img src="${country.flags.png}" alt="Флаг ${country.name.common}" class="country-flag">
+                        <div class="country-info">
+                            <h3 class="country-name">${country.name.common}</h3>
+                            <div class="country-details">
+                                <div class="country-detail">
+                                    <span class="detail-label">🏛️ Столица:</span>
+                                    <span>${country.capital ? country.capital[0] : 'Не указана'}</span>
+                                </div>
+                                <div class="country-detail">
+                                    <span class="detail-label">👥 Население:</span>
+                                    <span>${country.population ? country.population.toLocaleString() : 'Не указано'}</span>
+                                </div>
+                                <div class="country-detail">
+                                    <span class="detail-label">🌍 Регион:</span>
+                                    <span>${country.region || 'Не указан'}</span>
+                                </div>
+                                <div class="country-detail">
+                                    <span class="detail-label">🗣️ Языки:</span>
+                                    <span>${languages}</span>
+                                </div>
+                            </div>
+                            <div class="country-actions">
+                                <button class="action-btn ${isInWishlist ? 'btn-danger' : 'btn-success'}" 
+                                        onclick="toggleWishlist('${country.cca2}', '${country.name.common.replace(/'/g, "\\'")}')">
+                                    ${isInWishlist ? '❌ Удалить' : '❤️ В вишлист'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleWishlist(countryCode, countryName) {
+            const existingIndex = userWishlist.findIndex(item => item.countryCode === countryCode);
+            
+            if (existingIndex !== -1) {
+                userWishlist.splice(existingIndex, 1);
+                alert('❌ ' + countryName + ' удалена из вишлиста');
+            } else {
+                userWishlist.push({
+                    countryCode: countryCode,
+                    countryName: countryName,
+                    rating: 0,
+                    notes: '',
+                    addedDate: new Date().toLocaleDateString('ru-RU')
+                });
+                alert('❤️ ' + countryName + ' добавлена в вишлист!');
+            }
+            
+            localStorage.setItem('countriesWishlist', JSON.stringify(userWishlist));
+            updateWishlistCount();
+            loadCountries(); // Refresh to update buttons
+        }
+
+        function loadWishlist() {
+            const container = document.getElementById('wishlist-container');
+            updateWishlistCount();
+            
+            if (userWishlist.length === 0) {
+                container.innerHTML = `
+                    <p style="grid-column: 1 / -1; text-align: center; color: #7f8c8d; padding: 3rem;">
+                        Вишлист пуст. Добавьте страны из раздела "Все страны"
+                    </p>
+                `;
+                return;
+            }
+
+            container.innerHTML = userWishlist.map(item => {
+                return `
+                    <div class="country-card">
+                        <div class="country-info">
+                            <h3 class="country-name">${item.countryName}</h3>
+                            <div class="country-details">
+                                <div class="country-detail">
+                                    <span class="detail-label">📅 Добавлено:</span>
+                                    <span>${item.addedDate}</span>
+                                </div>
+                                <div class="country-detail">
+                                    <span class="detail-label">⭐ Оценка:</span>
+                                    <span>${'★'.repeat(item.rating)}${'☆'.repeat(5 - item.rating)}</span>
+                                </div>
+                            </div>
+                            ${item.notes ? `<p><strong>Заметки:</strong> ${item.notes}</p>` : ''}
+                            <div class="country-actions">
+                                <button class="action-btn btn-danger" 
+                                        onclick="toggleWishlist('${item.countryCode}', '${item.countryName.replace(/'/g, "\\'")}')">
+                                    ❌ Удалить
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function updateWishlistCount() {
+            document.getElementById('wishlist-count').textContent = userWishlist.length;
+        }
+
+        function searchCountries() {
+            const name = document.getElementById('search-name').value.toLowerCase();
+            const capital = document.getElementById('search-capital').value.toLowerCase();
+            const language = document.getElementById('search-language').value.toLowerCase();
+            const region = document.getElementById('search-region').value;
+
+            filteredCountries = allCountries.filter(country => {
+                const nameMatch = country.name.common.toLowerCase().includes(name);
+                const capitalMatch = !capital || (country.capital && country.capital[0].toLowerCase().includes(capital));
+                const languageMatch = !language || (country.languages && Object.values(country.languages).some(lang => lang.toLowerCase().includes(language)));
+                const regionMatch = !region || country.region === region;
+
+                return nameMatch && capitalMatch && languageMatch && regionMatch;
+            });
+
+            displayCountries(filteredCountries);
+        }
+
+        function resetSearch() {
+            document.getElementById('search-name').value = '';
+            document.getElementById('search-capital').value = '';
+            document.getElementById('search-language').value = '';
+            document.getElementById('search-region').value = '';
+            filteredCountries = [...allCountries];
+            displayCountries(filteredCountries);
+        }
+
+        // Load countries when page loads
+        window.onload = function() {
+            loadCountries();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мир стран - Полная версия</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <header class="header">
+            <h1>🌍 МИР СТРАН</h1>
+            <p>Исследуйте страны мира и создайте свой вишлист путешествий</p>
+        </header>
+
+        <nav class="navbar">
+            <button class="nav-btn active" data-section="search">🔍 Поиск стран</button>
+            <button class="nav-btn" data-section="wishlist">❤️ Мой вишлист</button>
+            <button class="nav-btn" data-section="profile">👤 Профиль</button>
+        </nav>
+
+        <main class="main-content">
+            <!-- Search Section -->
+            <section id="search-section" class="section active">
+                <div class="search-controls">
+                    <input type="text" id="search-input" placeholder="Поиск по названию, столице, языку...">
+                    <select id="region-filter">
+                        <option value="">Все регионы</option>
+                        <option value="africa">Африка</option>
+                        <option value="americas">Америка</option>
+                        <option value="asia">Азия</option>
+                        <option value="europe">Европа</option>
+                        <option value="oceania">Океания</option>
+                    </select>
+                    <button id="search-btn">Найти</button>
+                    <button id="load-all-btn">Все страны</button>
+                </div>
+
+                <div class="filters">
+                    <label>Сортировка:
+                        <select id="sort-by">
+                            <option value="name">По названию</option>
+                            <option value="population">По населению</option>
+                            <option value="area">По площади</option>
+                        </select>
+                    </label>
+                </div>
+
+                <div id="countries-container" class="countries-grid">
+                    <p>Начните поиск или загрузите все страны</p>
+                </div>
+            </section>
+
+            <!-- Wishlist Section -->
+            <section id="wishlist-section" class="section">
+                <div class="section-header">
+                    <h2>❤️ Мой вишлист путешествий</h2>
+                    <div class="wishlist-stats">
+                        <span id="wishlist-count">Стран: 0</span>
+                        <span id="wishlist-rating">Средняя оценка: 0</span>
+                    </div>
+                </div>
+
+                <div class="wishlist-controls">
+                    <select id="wishlist-sort">
+                        <option value="date">По дате добавления</option>
+                        <option value="name">По названию</option>
+                        <option value="rating">По оценке</option>
+                    </select>
+                    <input type="text" id="wishlist-search" placeholder="Поиск в вишлисте...">
+                </div>
+
+                <div id="wishlist-container" class="wishlist-grid">
+                    <p>Вишлист пуст. Добавьте страны из раздела поиска</p>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="section">
+                <div class="profile-card">
+                    <h2>👤 Профиль пользователя</h2>
+                    <div id="profile-info">
+                        <p>Загрузка профиля...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Country Modal -->
+    <div id="country-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div id="wishlist-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Добавить в вишлист</h3>
+            <form id="wishlist-form">
+                <input type="hidden" id="wishlist-country-code">
+                <input type="hidden" id="wishlist-country-name">
+                
+                <label>Оценка (1-5):
+                    <select id="wishlist-rating-input">
+                        <option value="0">Без оценки</option>
+                        <option value="1">1 ⭐</option>
+                        <option value="2">2 ⭐⭐</option>
+                        <option value="3">3 ⭐⭐⭐</option>
+                        <option value="4">4 ⭐⭐⭐⭐</option>
+                        <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                    </select>
+                </label>
+                
+                <label>Заметки:
+                    <textarea id="wishlist-notes" placeholder="Ваши заметки о стране..."></textarea>
+                </label>
+                
+                <button type="submit">Сохранить</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
